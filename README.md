@@ -1,5 +1,7 @@
 # Swagger Editor Live
 
+A live swagger editor that saves your changes back to the file.
+
 ## Installation
 
 ```
