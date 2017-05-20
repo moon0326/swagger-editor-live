@@ -20,8 +20,7 @@ var app = require('commander');
 var fs = require('fs');
 
 app
-  .command('serve <swaggerFile> [port]')
-  .description('Open swaggerFile in live edit mode.')
+  .command('serve <swaggerFile> [port]', 'Open swaggerFile in live edit mode.')
   .action(function(swaggerFile, port) {
     var main = require('../index.js');
     if (fs.existsSync(swaggerFile)) {
