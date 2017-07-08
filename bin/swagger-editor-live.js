@@ -21,7 +21,7 @@ if (typeof swaggerFilePathValue === 'undefined') {
 }
 
 if (fs.existsSync(swaggerFilePathValue)) {
-    require("../index.js").edit(swaggerFilePathValue);
+    require("../index.js").edit(swaggerFilePathValue, 8000);
 } else {
     console.error(swaggerFilePathValue + " does not exist.");
 }
