@@ -31,7 +31,7 @@ function edit(swaggerFile, port) {
   });
 
 
-  app.use('/', serveStatic("./"));
+  app.use('/', serveStatic(path.resolve(__dirname)));
 
   var hostname = '127.0.0.1';
   var server = http.createServer(app);
