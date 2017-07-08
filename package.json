@@ -13,8 +13,7 @@
     "connect": "^3.6.2",
     "open": "0.0.5",
     "path": "^0.12.7",
-    "serve-static": "^1.12.3",
-    "swagger-editor": "^2.9.2"
+    "serve-static": "^1.12.3"
   },
   "bin": {
     "swagger-editor-live": "bin/swagger-editor-live.js"
