@@ -1,5 +1,3 @@
-#WARNING: This is a test version. Do Not Install
-
 # Swagger Editor Live
 
 A live swagger editor that saves your changes back to the file.
