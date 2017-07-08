@@ -70,7 +70,7 @@
       $.ajax({
         url: "/editor/spec",
         type: "PUT",
-        data: localStorage.getItem('swagger-editor-content'),
+        data: editor.spec().get('spec'),
         success: function(data) {
           console.log(data);
         }

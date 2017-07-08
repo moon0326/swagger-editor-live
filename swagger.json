@@ -22,6 +22,7 @@ paths:
             status: 200
             response: Welcome to Hue API Gateway!
   '/catalog/creatives/{creativeId}':
+    
     get:
       tags:
         - Creative
