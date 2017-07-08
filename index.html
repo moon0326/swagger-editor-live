@@ -66,7 +66,6 @@
 
 
     document.addEventListener("localStorageItemUpdated", function(e) {
-
       $.ajax({
         url: "/editor/spec",
         type: "PUT",
@@ -90,10 +89,6 @@
         SwaggerEditorStandalonePreset
       ]
     });
-
-    setTimeout(function() {
-      editor.specActions.formatIntoYaml();
-  }, 500);
 
     window.editor = editor
   }
