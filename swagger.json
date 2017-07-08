@@ -1,0 +1,115 @@
+swagger: '2.0'
+info:
+  description: Catalog APIs in Hue API Gateway
+  version: 1.0.0
+  title: Catalog
+host: 'apigateway.local:81'
+basePath: /catalog
+schemes:
+  - http
+tags:
+  - name: Creative
+  - name: Artist
+paths:
+  /:
+    get:
+      produces:
+        - text/html
+      x-requests:
+        - service: mirror
+          name: mirror
+          arguments:
+            status: 200
+            response: Welcome to Hue API Gateway!
+  '/catalog/creatives/{creativeId}':
+    get:
+      tags:
+        - Creative
+      produces:
+        - application/xml
+      parameters:
+        - name: creativeId
+          in: path
+          required: true
+          type: string
+      x-requests:
+        - service: catalog
+          name: catalog
+          arguments:
+            method: get
+            path: '/creatives/{creativeId}'
+          parameters:
+            - in: path
+              name: creativeId
+              required: true
+              type: string
+              from:
+                source: operation
+                in: path
+                name: creativeId
+      responses:
+        '200':
+          description: successful operation
+  '/catalog/creatives/{creativeId}/products/{productTypeSlug}':
+    get:
+      tags:
+        - Creative
+      produces:
+        - application/xml
+      parameters:
+        - name: creativeId
+          in: path
+          required: true
+          type: string
+        - name: productTypeSlug
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+  '/catalog/artists/{username}/creatives/{status}?page={page}&per_page={per_page}':
+    get:
+      tags:
+        - Artist
+      produces:
+        - application/xml
+      parameters:
+        - name: username
+          in: path
+          required: true
+          type: string
+        - name: status
+          in: path
+          required: true
+          type: string
+          enum:
+            - all
+            - pending
+            - published
+        - name: page
+          in: query
+          required: true
+          type: integer
+        - name: per_page
+          in: query
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid username/password supplied
+  /catalog//tag-groups:
+    get:
+      produces:
+        - application/xml
+      responses:
+        '200':
+          description: successful operation
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions: {}
