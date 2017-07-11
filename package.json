@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor-live",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,10 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^2.9.0",
-    "connect": "^3.6.2",
+    "express": "^4.15.3",
     "open": "0.0.5",
     "path": "^0.12.7",
-    "serve-static": "^1.12.3"
+    "swagger-editor-dist": "^3.0.14"
   },
   "bin": {
     "swagger-editor-live": "bin/swagger-editor-live.js"

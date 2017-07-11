@@ -1,5 +1,3 @@
-#WARNING: This is a test version. Do Not Install
-
 # Swagger Editor Live
 
 A live swagger editor that saves your changes back to the file.
@@ -14,3 +12,11 @@ npm install swagger-editor-live -g
 ```
 swagger-editor-live <swagger file path here>
 ```
+
+You can also specify port number by passing --port option.
+
+``` 
+swagger-editor-live <swagger file path here> --port=8000
+```
+
+

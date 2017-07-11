@@ -1,42 +1,44 @@
 'use strict';
 
 var path = require('path');
-var serveStatic = require('serve-static');
 var fs = require('fs');
-var process = require('process');
 var open = require('open');
-var http = require('http');
 var nodeModules = path.resolve(path.resolve(__dirname, ''), 'node_modules');
-var app = require('connect')();
+var express = require('express');
+var app = express();
 
+function edit(swaggerFile, port, hostname) {
 
-function edit(swaggerFile, port) {
-  app.use('/editor/spec', function(req, res, next) {
-    switch (req.method) {
-      case 'GET': 
-        res.end(fs.readFileSync(swaggerFile));
-        break;
-      case 'PUT':
-          var stream = fs.createWriteStream(swaggerFile);
-          req.pipe(stream);
-          stream.on('finish', function() {
-            res.end('ok');
-            console.log("Saved changes");
-          })
-        break;
-      default:
-        return next();
-        break;
-    }
+  app.get('/', function(req, res) {
+    res.sendFile(__dirname + "/index.html");
   });
 
+  app.get('/swagger-editor.css', function(req, res) {
+    res.sendFile(nodeModules + "/swagger-editor-dist/swagger-editor.css");
+  });
 
-  app.use('/', serveStatic(path.resolve(__dirname)));
+  app.get('/swagger-editor-bundle.js', function(req, res) {
+    res.sendFile(nodeModules + "/swagger-editor-dist/swagger-editor-bundle.js");
+  });
 
-  var hostname = '127.0.0.1';
-  var server = http.createServer(app);
-  server.listen(port, hostname, function() {
-    open('http://' + hostname + ':' + server.address().port);
+  app.get('/swagger-editor-standalone-preset.js', function(req, res) {
+    res.sendFile(nodeModules + "/swagger-editor-dist/swagger-editor-standalone-preset.js");
+  });
+
+  app.get('/editor/spec', function(req, res) {
+    res.send(fs.readFileSync(swaggerFile));
+  });
+
+  app.put('/editor/spec', function(req, res) {
+    var stream = fs.createWriteStream(swaggerFile);
+    req.pipe(stream);
+    stream.on('finish', function() {
+      res.send('ok');
+      console.log("Saved changes");
+    })
+  });
+  app.listen(port,hostname, function() {
+    open('http://' + hostname + ':' + port);
   });
 }
 
