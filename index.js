@@ -7,7 +7,7 @@ var nodeModules = path.resolve(path.resolve(__dirname, ''), 'node_modules');
 var express = require('express');
 var app = express();
 
-function edit(swaggerFile, port) {
+function edit(swaggerFile, port, hostname) {
 
   app.get('/', function(req, res) {
     res.sendFile(__dirname + "/index.html");
@@ -37,9 +37,7 @@ function edit(swaggerFile, port) {
       console.log("Saved changes");
     })
   });
-
-  var hostname = '127.0.0.1';
-  app.listen(port, function() {
+  app.listen(port,hostname, function() {
     open('http://' + hostname + ':' + port);
   });
 }
