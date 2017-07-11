@@ -38,7 +38,7 @@
   }
 
   </style>
-  <link href="./node_modules/swagger-editor-dist/swagger-editor.css" rel="stylesheet">
+  <link href="node_modules/swagger-editor-dist/swagger-editor.css" rel="stylesheet">
 </head>
 
 <body>
@@ -47,7 +47,6 @@
   <script>
 
     // Reset local-storage plugin content
-    localStorage.setItem('swagger-editor-content', ' ');
     $.get("/editor/spec", function(spec) {
       localStorage.setItem('swagger-editor-content', spec);
     });
@@ -58,31 +57,24 @@
      * in the same tab.
      */
     var originalSetItem = localStorage.setItem;
-    localStorage.setItem = function() {
-      var event = new Event('localStorageItemUpdated');
+    localStorage.setItem = function(key, value) {
+      var event = new CustomEvent('localStorageItemUpdated', {
+        detail: {
+          'key': key,
+          'value': value
+        }
+      });
       document.dispatchEvent(event);
       originalSetItem.apply(this, arguments);
     }
 
-
-    document.addEventListener("localStorageItemUpdated", function(e) {
-      $.ajax({
-        url: "/editor/spec",
-        type: "PUT",
-        data: editor.spec().get('spec'),
-        success: function(data) {
-          console.log(data);
-        }
-      });
-    }, false);
-
   </script>
-  <script src="./node_modules/swagger-editor-dist/swagger-editor-bundle.js"> </script>
-  <script src="./node_modules/swagger-editor-dist/swagger-editor-standalone-preset.js"> </script>
+  <script src="node_modules/swagger-editor-dist/swagger-editor-bundle.js"> </script>
+  <script src="node_modules/swagger-editor-dist/swagger-editor-standalone-preset.js"> </script>
   <script>
   window.onload = function() {
     // Build a system
-    const editor = SwaggerEditorBundle({
+    var editor = SwaggerEditorBundle({
       dom_id: '#swagger-editor',
       layout: 'StandaloneLayout',
       presets: [
@@ -90,7 +82,24 @@
       ]
     });
 
-    window.editor = editor
+    window.editor = editor;
+
+    document.addEventListener("localStorageItemUpdated", function(e) {
+      if (e.detail.key !== 'swagger-editor-content') {
+        return;
+      }
+      
+      $.ajax({
+        url: "/editor/spec",
+        type: "PUT",
+        data: e.detail.value,
+        success: function(data) {
+          console.log(data);
+        }
+      });
+
+    }, false);
+
   }
   </script>
 
