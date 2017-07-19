@@ -10,6 +10,7 @@ program
     .arguments('<swaggerFilePath>')
     .option('-p, --port <port>', 'Port to be used. Default is 8000')
     .option('-h, --host <Hostname|Ip>', 'Host to be used. Default is 127.0.0.1')
+    .option('-f, --folder <folder>', 'folder to be used for a multifile swagger setup')
     .action(function(swaggerFilePath) {
         swaggerFilePathValue = swaggerFilePath;
     });
@@ -29,7 +30,7 @@ if (typeof program.host === 'undefined') {
 }
 
 if (fs.existsSync(swaggerFilePathValue)) {
-    require("../index.js").edit(swaggerFilePathValue, program.port,program.host);
+    require("../index.js").edit(swaggerFilePathValue, program.port,program.host,program.folder);
 } else {
     console.error(swaggerFilePathValue + " does not exist.");
 }
