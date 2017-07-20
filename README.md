@@ -19,4 +19,16 @@ You can also specify port number by passing --port option.
 swagger-editor-live <swagger file path here> --port=8000
 ```
 
+You may also change the host, usefull if you're using this inside a docker.
+
+```
+swagger-editor-live <swagger file path here> --host=0.0.0.0
+```
+
+If you're using multiple files with swagger then u want to specify where they are located like this
+
+```
+swagger-editor-live <swagger file path here> --folder=api
+```
+
 
