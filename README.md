@@ -1,3 +1,4 @@
+For those of you who are looking for a solution for multifile Swagger files, take a look at https://github.com/moon0326/swagger-ui-watcher instead
 # Swagger Editor Live
 
 A live swagger editor that saves your changes back to the file.
