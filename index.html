@@ -44,33 +44,53 @@
 <body>
   <div id="swagger-editor"></div>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="/swagger-editor-bundle.js"> </script>
+  <script src="/swagger-editor-standalone-preset.js"> </script>
   <script>
 
     // Reset local-storage plugin content
     $.get("/editor/spec", function(spec) {
       localStorage.setItem('swagger-editor-content', spec);
     });
-
-    /**
-     * Such hack, wow!
-     * Kidding aside, this is a hack to listen to localStorage change
-     * in the same tab.
-     */
-    var originalSetItem = localStorage.setItem;
-    localStorage.setItem = function(key, value) {
-      var event = new CustomEvent('localStorageItemUpdated', {
-        detail: {
-          'key': key,
-          'value': value
+  </script>
+  <script>
+    function TransmitSpecOnChangePlugin(system) {
+      return {
+        statePlugins: {
+          spec: {
+            wrapActions: {
+              updateSpec: updateSpec
+            }
+          }
         }
-      });
-      document.dispatchEvent(event);
-      originalSetItem.apply(this, arguments);
+      }
     }
 
+    function updateSpec(ori) {
+      return function () {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        var spec = args[0];
+        ori.apply(undefined, args);
+        transmitUpdate(spec)
+      }
+    }
+
+    function transmitUpdate(str) {
+      return $.ajax({
+        url: "/editor/spec",
+        type: "PUT",
+        data: str,
+        success: function(data) {
+          console.log(data);
+        }
+      });
+    }
+
+    window.TransmitSpecOnChangePlugin = TransmitSpecOnChangePlugin
   </script>
-  <script src="/swagger-editor-bundle.js"> </script>
-  <script src="/swagger-editor-standalone-preset.js"> </script>
   <script>
   window.onload = function() {
     // Build a system
@@ -79,27 +99,13 @@
       layout: 'StandaloneLayout',
       presets: [
         SwaggerEditorStandalonePreset
+      ],
+      plugins: [
+        TransmitSpecOnChangePlugin
       ]
     });
 
     window.editor = editor;
-
-    document.addEventListener("localStorageItemUpdated", function(e) {
-      if (e.detail.key !== 'swagger-editor-content') {
-        return;
-      }
-      
-      $.ajax({
-        url: "/editor/spec",
-        type: "PUT",
-        data: e.detail.value,
-        success: function(data) {
-          console.log(data);
-        }
-      });
-
-    }, false);
-
   }
   </script>
 
