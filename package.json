@@ -3,6 +3,7 @@
   "version": "2.1.5",
   "description": "",
   "main": "index.js",
+  "repository": "git@github.com:moon0326/swagger-editor-live.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
