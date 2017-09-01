@@ -4,6 +4,9 @@ var path = require('path');
 var fs = require('fs');
 var open = require('open');
 var nodeModules = path.resolve('node_modules');
+if (!fs.existsSync(nodeModules)) {
+  nodeModules = path.resolve('node_modules');
+}
 var express = require('express');
 var app = express();
 
