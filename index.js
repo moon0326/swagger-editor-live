@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var open = require('open');
 var nodeModules = path.resolve(path.resolve(__dirname, ''), 'node_modules');
-if (!fs.existsSync(nodeModules)) {
+if (!fs.existsSync(nodeModules + "/swagger-editor-dist")) {
   nodeModules = path.resolve('node_modules');
 }
 var express = require('express');
